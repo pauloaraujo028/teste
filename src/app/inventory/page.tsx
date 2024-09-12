@@ -1,18 +1,16 @@
 "use client";
 
 import Title from "@/app/_components/Title";
-import { useEditProductMutation, useGetProductsQuery } from "@/state/api";
+import { useGetProductsQuery } from "@/state/api";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useState } from "react";
 import Actionsbar from "../_components/Actionsbar";
-import EditProductModal from "../products/EditProductModal";
 
-type ProductFormData = {
-  name: string;
-  price: number;
-  stockQuantity: number;
-  rating: number;
-};
+// type ProductFormData = {
+//   name: string;
+//   price: number;
+//   stockQuantity: number;
+//   rating: number;
+// };
 
 const columns: GridColDef[] = [
   { field: "productId", headerName: "ID", width: 90 },
@@ -42,25 +40,25 @@ const columns: GridColDef[] = [
 const Inventory = () => {
   const { data: products, isError, isLoading } = useGetProductsQuery();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] =
-    useState<ProductFormData | null>(null);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [selectedProduct, setSelectedProduct] =
+  //   useState<ProductFormData | null>(null);
 
-  const [editProduct] = useEditProductMutation();
+  // const [editProduct] = useEditProductMutation();
 
-  const handleEditProduct = async (productData: ProductFormData) => {
-    await editProduct(productData);
-    setIsModalOpen(false);
-  };
+  // const handleEditProduct = async (productData: ProductFormData) => {
+  //   await editProduct(productData);
+  //   setIsModalOpen(false);
+  // };
 
-  const handleRowClick = (rowData: ProductFormData) => {
-    setSelectedProduct(rowData);
-    setIsModalOpen(true);
-  };
+  // const handleRowClick = (rowData: ProductFormData) => {
+  //   setSelectedProduct(rowData);
+  //   setIsModalOpen(true);
+  // };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  // const handleCloseModal = () => {
+  //   setIsModalOpen(false);
+  // };
 
   if (isLoading) {
     return <div className="py-4">Loading...</div>;
@@ -86,17 +84,17 @@ const Inventory = () => {
         getRowId={(row) => row.productId}
         checkboxSelection
         className="bg-white shadow rounded-lg border border-gray-200 mt-5 !text-gray-700"
-        onRowClick={(params) => handleRowClick(params.row)}
+        // onRowClick={(params) => handleRowClick(params.row)}
       />
 
-      {selectedProduct && (
+      {/* {selectedProduct && (
         <EditProductModal
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           onUpdate={handleEditProduct}
           initialData={selectedProduct}
         />
-      )}
+      )} */}
     </div>
   );
 };
