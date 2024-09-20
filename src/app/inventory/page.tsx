@@ -4,6 +4,9 @@ import Title from "@/app/_components/Title";
 import { useGetProductsQuery } from "@/state/api";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Actionsbar from "../_components/Actionsbar";
+import Loader from "../_components/loader";
+import TableTeste from "../_components/table";
+import { Card, CardHeader } from "../_components/ui/card";
 
 // type ProductFormData = {
 //   name: string;
@@ -13,26 +16,26 @@ import Actionsbar from "../_components/Actionsbar";
 // };
 
 const columns: GridColDef[] = [
-  { field: "productId", headerName: "ID", width: 90 },
-  { field: "name", headerName: "Product Name", width: 200 },
+  { field: "productId", headerName: "ID", flex: 0.5 },
+  { field: "name", headerName: "Product Name", flex: 2 },
   {
     field: "price",
     headerName: "Price",
-    width: 110,
+    flex: 1,
     type: "number",
     valueGetter: (value, row) => `$${row.price}`,
   },
   {
     field: "rating",
     headerName: "Rating",
-    width: 110,
+    flex: 1,
     type: "number",
     valueGetter: (value, row) => (row.rating ? row.rating : "N/A"),
   },
   {
     field: "stockQuantity",
     headerName: "Stock Quantity",
-    width: 150,
+    flex: 1,
     type: "number",
   },
 ];
@@ -61,7 +64,11 @@ const Inventory = () => {
   // };
 
   if (isLoading) {
-    return <div className="py-4">Loading...</div>;
+    return (
+      <div className="flex items-start pt-[15%] h-screen py-4">
+        <Loader />
+      </div>
+    );
   }
 
   if (isError || !products) {
@@ -78,14 +85,19 @@ const Inventory = () => {
 
       <Actionsbar />
 
-      <DataGrid
-        rows={products}
-        columns={columns}
-        getRowId={(row) => row.productId}
-        checkboxSelection
-        className="bg-white shadow rounded-lg border border-gray-200 mt-5 !text-gray-700"
-        // onRowClick={(params) => handleRowClick(params.row)}
-      />
+      <Card className="">
+        <CardHeader>teste</CardHeader>
+        <DataGrid
+          rows={products}
+          columns={columns}
+          getRowId={(row) => row.productId}
+          checkboxSelection
+          className="bg-white shadow rounded-lg border border-gray-200 mt-5 !text-gray-700"
+          // onRowClick={(params) => handleRowClick(params.row)}
+        />
+      </Card>
+
+      <TableTeste />
 
       {/* {selectedProduct && (
         <EditProductModal

@@ -1,22 +1,53 @@
 "use client";
 
-import Rating from "@/app/_components/Rating";
 import Title from "@/app/_components/Title";
-import { useCreateProductMutation, useGetProductsQuery } from "@/state/api";
-import { PlusCircleIcon, SearchIcon } from "lucide-react";
+import { useGetProductsQuery } from "@/state/api";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Filter, PencilIcon, PlusCircleIcon, SearchIcon } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
-import CreateProductModal from "./CreateProductModal";
+import Loader from "../_components/loader";
+import { Card, CardHeader } from "../_components/ui/card";
 
-type ProductFormData = {
-  name: string;
-  price: number;
-  stockQuantity: number;
-  rating: number;
-};
+const columns: GridColDef[] = [
+  { field: "productId", headerName: "ID", flex: 0.5 },
+  { field: "name", headerName: "Product Name", flex: 2 },
+  {
+    field: "price",
+    headerName: "Price",
+    flex: 1,
+    type: "number",
+    valueGetter: (value, row) => `$${row.price}`,
+  },
+  {
+    field: "rating",
+    headerName: "Rating",
+    flex: 1,
+    type: "number",
+    valueGetter: (value, row) => (row.rating ? row.rating : "N/A"),
+  },
+  {
+    field: "stockQuantity",
+    headerName: "Stock Quantity",
+    flex: 1,
+    type: "number",
+  },
+  {
+    field: "actions",
+    headerName: "Actions",
+    flex: 1,
+    renderCell: (params) => (
+      <Link href={`/products/edit/${params.row.productId}`}>
+        <button className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">
+          <PencilIcon size={16} />
+        </button>
+      </Link>
+    ),
+  },
+];
 
 const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
     data: products,
@@ -24,14 +55,12 @@ const Products = () => {
     isError,
   } = useGetProductsQuery(searchTerm);
 
-  const [createProduct] = useCreateProductMutation();
-
-  const handleCreateProduct = async (productData: ProductFormData) => {
-    await createProduct(productData);
-  };
-
   if (isLoading) {
-    return <div className="py-4">Loading...</div>;
+    return (
+      <div className="flex items-start pt-[15%] h-screen py-4">
+        <Loader />
+      </div>
+    );
   }
 
   if (isError || !products) {
@@ -43,66 +72,52 @@ const Products = () => {
   }
 
   return (
-    <div className="mx-auto pb-5 w-full">
-      <div className="mb-6">
-        <div className="flex items-center border-2 border-gray-200 rounded">
-          <SearchIcon className="w-5 h-5 text-gray-500 m-2" />
-          <input
-            type="text"
-            className="w-full py-2 px-4 rounded bg-white"
-            placeholder="Search products..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-      </div>
-
+    <div className="mx-auto pb-5 w-full h-screen">
       <div className="flex justify-between items-center mb-6">
-        <Title name="Products" />
+        <div>
+          <Title name="Products" />
+          <span>Manage your products</span>
+        </div>
 
-        <button
-          className="flex items-center bg-blue-500 hover:bg-blue-700 text-gray-200 font-bold py-2 px-4 rounded"
-          onClick={() => setIsModalOpen(true)}
-        >
-          <PlusCircleIcon className="w-5 h-5 mr-2 !text-gray-200" />
-          Create Product
-        </button>
+        <Link href="/products/create-products">
+          <button className="flex items-center bg-blue-500 hover:bg-blue-700 text-gray-200 font-bold py-2 px-4 rounded">
+            <PlusCircleIcon className="w-5 h-5 mr-2 !text-gray-200" />
+            Adicionar novo produto
+          </button>
+        </Link>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-between">
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : (
-          products?.map((product) => (
-            <div
-              key={product.productId}
-              className="border shadow rounded-md p-4 max-w-full w-full mx-auto"
-            >
-              <div className="flex flex-col items-center">
-                img
-                <h3 className="text-lg text-gray-900 font-semibold">
-                  {product.name}
-                </h3>
-                <p className="text-gray-800">${product.price.toFixed(2)}</p>
-                <div className="text-sm text-gray-600 mt-1">
-                  Stock: {product.stockQuantity}
-                </div>
-                {product.rating && (
-                  <div className="flex items-center mt-2">
-                    <Rating rating={product.rating} />
-                  </div>
-                )}
-              </div>
-            </div>
-          ))
-        )}
-      </div>
-
-      <CreateProductModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onCreate={handleCreateProduct}
-      />
+      <Card>
+        <CardHeader className="flex items-center justify-between flex-row">
+          <div className="flex items-center border-2 border-gray-200 rounded-lg">
+            <SearchIcon className="w-5 h-5 text-gray-500 m-2" />
+            <input
+              type="text"
+              className="w-full py-2 px-4 rounded bg-white"
+              placeholder="Search products..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <div>
+            <Filter size={20} />
+          </div>
+        </CardHeader>
+        <DataGrid
+          rows={products}
+          columns={columns}
+          getRowId={(row) => row.productId}
+          checkboxSelection
+          sx={{
+            borderTop: "1px solid #ccc",
+            borderBottom: "1px solid #ccc",
+            borderLeft: "none",
+            borderRight: "none",
+            borderRadius: "0",
+          }}
+          // onRowClick={(params) => handleRowClick(params.row)}
+        />
+      </Card>
     </div>
   );
 };

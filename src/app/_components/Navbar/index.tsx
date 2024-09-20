@@ -5,6 +5,15 @@ import { setIsSidebarCollapsed } from "@/state";
 import { Bell, Menu, Settings } from "lucide-react";
 import Link from "next/link";
 import { ModeToggle } from "../mode-toggle";
+import { Button } from "../ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -36,7 +45,7 @@ const Navbar = () => {
           />
 
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Bell className="text-gray-500" size={20} />
+            <Bell className="text-gray-500" size={24} />
           </div>
         </div>
       </div>
@@ -47,6 +56,7 @@ const Navbar = () => {
           <div>
             <ModeToggle />
           </div>
+
           <div className="relative">
             <Bell className="cursor-pointer text-gray-500" size={24} />
             <span className="absolute -top-2 -right-2 inline-flex items-center justify-center px-[0.4rem] py-1 text-xs font-semibold leading-none text-red-100 bg-red-400 rounded-full">
@@ -59,9 +69,24 @@ const Navbar = () => {
             <span className="font-semibold">Paulo Araújo</span>
           </div>
         </div>
-        <Link href="/settings">
-          <Settings className="cursor-pointer text-gray-500" size={24} />
-        </Link>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost">
+              <Settings className="text-gray-500" size={24} />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="center">
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Link href="/settings">Settings</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>Support</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Logout</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );

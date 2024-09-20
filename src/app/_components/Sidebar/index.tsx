@@ -5,12 +5,13 @@ import { setIsSidebarCollapsed } from "@/state";
 import {
   Archive,
   CircleDollarSign,
-  Clipboard,
-  Layout,
+  LayoutDashboard,
   LucideIcon,
   Menu,
-  SlidersHorizontal,
-  User,
+  Package,
+  Settings,
+  SquarePlus,
+  UserCheck,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -36,18 +37,14 @@ const SidebarLinks = ({
     <Link href={href}>
       <div
         className={`cursor-pointer flex items-center ${
-          isCollapsed ? "justify-center py-4" : "justify-start px-8 py-4"
-        } hover:text-blue-500 hover:bg-blue-100 gap-3 transition-colors ${
-          isActive ? "bg-blue-200" : ""
+          isCollapsed ? "justify-center py-4" : "justify-start px-4 py-3"
+        } text-gray-700 hover:text-orange-600 gap-3 transition-colors ${
+          isActive ? "text-orange-600" : ""
         }`}
       >
-        <Icon className="w-6 h-6 !text-gray-700" />
+        <Icon className="w-6 h-6" />
 
-        <span
-          className={`${
-            isCollapsed ? "hidden" : "block"
-          } font-medium text-gray-700`}
-        >
+        <span className={`${isCollapsed ? "hidden" : "block"} font-medium`}>
           {label}
         </span>
       </div>
@@ -74,7 +71,7 @@ const Sidebar = () => {
     <div className={sidebarClassNames}>
       <div
         className={`flex gap-3 justify-between md:justify-normal items-center pt-8 ${
-          isSidebarcollapsed ? "px-5" : "px-8"
+          isSidebarcollapsed ? "px-4" : "px-8"
         }`}
       >
         <div>Logo</div>
@@ -94,42 +91,97 @@ const Sidebar = () => {
       </div>
 
       <div className="flex-grow mt-8">
-        <SidebarLinks
-          href="/dashboard"
-          icon={Layout}
-          label="Dashboard"
-          isCollapsed={isSidebarcollapsed}
-        />
-        <SidebarLinks
-          href="/inventory"
-          icon={Archive}
-          label="Inventory"
-          isCollapsed={isSidebarcollapsed}
-        />
-        <SidebarLinks
-          href="/products"
-          icon={Clipboard}
-          label="Products"
-          isCollapsed={isSidebarcollapsed}
-        />
-        <SidebarLinks
-          href="/users"
-          icon={User}
-          label="User"
-          isCollapsed={isSidebarcollapsed}
-        />
-        <SidebarLinks
-          href="/settings"
-          icon={SlidersHorizontal}
-          label="Settings"
-          isCollapsed={isSidebarcollapsed}
-        />
-        <SidebarLinks
-          href="/expenses"
-          icon={CircleDollarSign}
-          label="Expenses"
-          isCollapsed={isSidebarcollapsed}
-        />
+        <div className="flex flex-col pb-4 px-5">
+          <span
+            className={`${
+              isSidebarcollapsed ? "hidden" : "block"
+            } font-semibold`}
+          >
+            Main
+          </span>
+          <SidebarLinks
+            href="/dashboard"
+            icon={LayoutDashboard}
+            label="Dashboard"
+            isCollapsed={isSidebarcollapsed}
+          />
+        </div>
+
+        <div className="flex flex-col pb-4 px-5">
+          <span
+            className={`${
+              isSidebarcollapsed ? "hidden" : "block"
+            } font-semibold`}
+          >
+            Inventário
+          </span>
+          <SidebarLinks
+            href="/products"
+            icon={Package}
+            label="Produtos"
+            isCollapsed={isSidebarcollapsed}
+          />
+          <SidebarLinks
+            href="/products/create-products"
+            icon={SquarePlus}
+            label="Criar Produto"
+            isCollapsed={isSidebarcollapsed}
+          />
+          <SidebarLinks
+            href="/inventory"
+            icon={Archive}
+            label="Inventory"
+            isCollapsed={isSidebarcollapsed}
+          />
+        </div>
+
+        <div className="flex flex-col pb-4 px-5">
+          <span
+            className={`${
+              isSidebarcollapsed ? "hidden" : "block"
+            } font-semibold`}
+          >
+            Gerenciamento de usuários
+          </span>
+          <SidebarLinks
+            href="/users"
+            icon={UserCheck}
+            label="Usuários"
+            isCollapsed={isSidebarcollapsed}
+          />
+        </div>
+
+        <div className="flex flex-col pb-4 px-5">
+          <span
+            className={`${
+              isSidebarcollapsed ? "hidden" : "block"
+            } font-semibold`}
+          >
+            Finanças e Contas
+          </span>
+          <SidebarLinks
+            href="/expenses"
+            icon={CircleDollarSign}
+            label="Expenses"
+            isCollapsed={isSidebarcollapsed}
+          />
+        </div>
+
+        <div className="flex flex-col pb-4 px-5">
+          <span
+            className={`${
+              isSidebarcollapsed ? "hidden" : "block"
+            } font-semibold`}
+          >
+            Configurações
+          </span>
+          <SidebarLinks
+            href="/products/edit-products"
+            icon={Settings}
+            label="Configurações gerais"
+            isCollapsed={isSidebarcollapsed}
+          />
+        </div>
       </div>
 
       <div className={`${isSidebarcollapsed ? "hidden" : "block"} mb-10`}>

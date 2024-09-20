@@ -4,6 +4,7 @@ import {
 } from "@/state/api";
 import { TrendingUp } from "lucide-react";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
+import Loader from "../_components/loader";
 
 type ExpenseSums = {
   [category: string]: number;
@@ -46,7 +47,15 @@ const CardExpenseSummary = () => {
   return (
     <div className="row-span-3 bg-white shadow-md rounded-2xl flex flex-col justify-between">
       {isLoading ? (
-        <div className="m-5">Loading...</div>
+        <>
+          <h3 className="text-lg font-semibold px-7 pt-5 pb-2">
+            Expense Summary
+          </h3>
+          <hr />
+          <div className="flex h-full items-center">
+            <Loader />
+          </div>
+        </>
       ) : (
         <>
           {/* HEADER */}

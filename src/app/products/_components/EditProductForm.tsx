@@ -10,19 +10,19 @@ type ProductFormData = {
   rating: number;
 };
 
-type EditProductModalProps = {
+type EditProductFormProps = {
   isOpen: boolean;
   onClose: () => void;
   onUpdate: (formData: ProductFormData) => void;
   initialData: ProductFormData | null;
 };
 
-const EditProductModal = ({
+const EditProductForm = ({
   isOpen,
   onClose,
   onUpdate,
   initialData,
-}: EditProductModalProps) => {
+}: EditProductFormProps) => {
   const [formData, setFormData] = useState({
     name: "",
     price: 0,
@@ -136,4 +136,4 @@ const EditProductModal = ({
   );
 };
 
-export default EditProductModal;
+export default EditProductForm;

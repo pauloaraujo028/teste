@@ -4,6 +4,7 @@ import Title from "@/app/_components/Title";
 import { useGetUsersQuery } from "@/state/api";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Actionsbar from "../_components/Actionsbar";
+import Loader from "../_components/loader";
 
 // type UserFormData = {
 //   name: string;
@@ -43,8 +44,12 @@ const Users = () => {
   //   setIsModalOpen(false);
   // };
 
-  if (isLoading) {
-    return <div className="py-4">Loading...</div>;
+  if (!isLoading) {
+    return (
+      <div className="flex items-start pt-[15%] h-screen py-4">
+        <Loader />
+      </div>
+    );
   }
 
   if (isError || !users) {
