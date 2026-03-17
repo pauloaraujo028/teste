@@ -1,5 +1,5 @@
 <div align="center">
-  <h1 align="center" style="color: #8063f3; font-size: 50px;">GS Calendar 📅</h1>
+  <h1 align="center" style="color: #8063f3; font-size: 50px;">Teste</h1>
 </div>
 
 <p align="center">
