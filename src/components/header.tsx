@@ -17,32 +17,32 @@ export default function Navigation() {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
-            <a
+            <Link
               href="#"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
               Home
-            </a>
-            <a
+            </Link>
+            <Link
               href="#"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
               About
-            </a>
-            <a
+            </Link>
+            <Link
               href="#"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
               Blog
-            </a>
-            <a
+            </Link>
+            <Link
               href="#"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
               Docs
-            </a>
+            </Link>
             <div className="relative group">
-              <a
+              <Link
                 href="#"
                 className="text-muted-foreground hover:text-foreground transition-colors flex items-center"
               >
@@ -60,14 +60,14 @@ export default function Navigation() {
                     d="M19 9l-7 7-7-7"
                   />
                 </svg>
-              </a>
+              </Link>
             </div>
-            <a
+            <Link
               href="#"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
               OpenAI Examples
-            </a>
+            </Link>
           </div>
 
           {/* Auth Buttons */}
